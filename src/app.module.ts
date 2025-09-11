@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './user/users.module';
 import { CategoriesModule } from './category/category.module';
+import { ProductsModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CategoriesModule } from './category/category.module';
     }),
     UsersModule,
     CategoriesModule,
+    ProductsModule
   ],
   controllers: [AppController],
   providers: [AppService],

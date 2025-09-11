@@ -60,7 +60,7 @@ export class CategoryService{
       if(!category){
         throw new NotFoundException("Category not found!")
       }
-      await this.categoryRepository.delete(category)
+      await this.categoryRepository.delete(id)
       return {'message':'Deleted Category was Successfully!'}
     }
 }

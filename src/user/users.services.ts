@@ -71,7 +71,7 @@ export class UserService{
       if(!user){
         throw new Error("User not found!")
       }
-      await this.userRepository.delete(user)
+      await this.userRepository.delete(id)
       return {'message':'Deleted User was Successfully!'}
     }
 }
