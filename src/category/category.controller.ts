@@ -13,32 +13,32 @@ import { CategoryService } from './category.services';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
-@Controller('user')
+@Controller('categories')
 export class CategoriesController{
     constructor(private readonly userService: CategoryService){}
     
-    @Post('/users')
+    @Post()
     async create(@Body() createUserDto:CreateCategoryDto){
         return this.userService.create(createUserDto)
     }
     
-    @Get('/users')
+    @Get()
     async getAll(){
         return this.userService.getAll()
     }
 
-    @Get('/users')
-    async getById(@Query('id') id:number){
+    @Get(':id')
+    async getById(@Param('id') id:number){
         return this.userService.getById(id)
     }
 
-    @Patch('/users')
-    async update(@Query('id') id:number, @Body() updateUserDto:UpdateCategoryDto){
+    @Patch(':id')
+    async update(@Param('id') id:number, @Body() updateUserDto:UpdateCategoryDto){
         return this.userService.update(id, updateUserDto)
     }
     
-    @Delete('/users')
-    async delete(@Query('id') id:number){
+    @Delete(':id')
+    async delete(@Param('id') id:number){
         return this.userService.delate(id)
     }
 }
