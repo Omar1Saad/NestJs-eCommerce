@@ -13,4 +13,7 @@ export class CreateProductDto{
 
     @IsInt()
     price:number
+
+    @IsInt()
+    categoryId:number
 };

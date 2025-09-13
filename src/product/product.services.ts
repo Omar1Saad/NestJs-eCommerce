@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { Products } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
+import { Categories } from "src/category/entities/category.entity";
 
 
 @Injectable()
@@ -11,17 +12,24 @@ export class ProductService{
     constructor(
         @InjectRepository(Products)
         private readonly productRepository: Repository<Products>,
+        @InjectRepository(Products)
+        private readonly categoryRepository: Repository<Categories>
     ){}
     async create(createProductDto: CreateProductDto): Promise<Products> {
-      const { name, description, price } = createProductDto;
+      const { name, description, price, categoryId } = createProductDto;
       const existingProduct = await this.productRepository.findOne({ where: { name } });
       if (existingProduct) {
         throw new ConflictException('Product with this name already exists');
+      }
+      const existingCategory = await this.categoryRepository.findOne({ where : { id:categoryId }})
+      if (!existingCategory) {
+        throw new NotFoundException('Category with this ID Not Found!');
       }
       const product = this.productRepository.create({
         name,
         description,
         price,
+        categoryId,
       });
       return this.productRepository.save(product);
     }
@@ -32,7 +40,7 @@ export class ProductService{
     async getById(id:number):Promise<Products>{
       const product = await this.productRepository.findOne({ where: { id } });
       if(!product){
-        throw new Error("Product not found!")
+        throw new NotFoundException("Product not found!")
       }      
       return product
     }
@@ -41,7 +49,7 @@ export class ProductService{
       const { name, description, price } = updateProductDto;
       const product = await this.productRepository.findOne({ where: { id } });
       if(!product){
-        throw new Error("Product not found!")
+        throw new NotFoundException("Product not found!")
       }
 
       if(name){

@@ -1,7 +1,11 @@
+import { Categories } from 'src/category/entities/category.entity';
 import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm'
@@ -25,4 +29,10 @@ export class Products{
     
     @UpdateDateColumn()
     updateAt:Date;
+    @Column()
+    categoryId:number
+
+    @ManyToOne(()=>Categories, (category)=>category.products)
+    @JoinColumn({name:'categoryId'})
+    category:Categories
 }

@@ -1,7 +1,7 @@
 import { Injectable, ConflictException, NotFoundException} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Category } from "./entities/category.entity";
+import { Categories } from "./entities/category.entity";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 
@@ -9,10 +9,10 @@ import { UpdateCategoryDto } from "./dto/update-category.dto";
 @Injectable()
 export class CategoryService{
     constructor(
-        @InjectRepository(Category)
-        private readonly categoryRepository: Repository<Category>,
+        @InjectRepository(Categories)
+        private readonly categoryRepository: Repository<Categories>,
     ){}
-    async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    async create(createCategoryDto: CreateCategoryDto): Promise<Categories> {
       const { name, description } = createCategoryDto;
       const existingCategory = await this.categoryRepository.findOne({ where: { name } });
       if (existingCategory) {
@@ -28,19 +28,19 @@ export class CategoryService{
       return await this.categoryRepository.find()
     }
 
-    async getById(id:number):Promise<Category>{
+    async getById(id:number):Promise<Categories>{
       const category = await this.categoryRepository.findOne({ where: { id } });
       if(!category){
-        throw new Error("Category not found!")
+        throw new NotFoundException("Category not found!")
       }      
       return category
     }
 
-    async update(id:number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+    async update(id:number, updateCategoryDto: UpdateCategoryDto): Promise<Categories> {
       const { name, description} = updateCategoryDto;
       const category = await this.categoryRepository.findOne({ where: { id } });
       if(!category){
-        throw new Error("Category not found!")
+        throw new NotFoundException("Category not found!")
       }
 
       if(name){

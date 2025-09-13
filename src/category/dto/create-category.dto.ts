@@ -7,6 +7,6 @@ export class CreateCategoryDto{
     @IsString()
     name:string;
 
-    @IsEmail()
+    @IsString()
     description:string
 };
