@@ -29,6 +29,7 @@ export class Products{
     
     @UpdateDateColumn()
     updateAt:Date;
+
     @Column()
     categoryId:number
 

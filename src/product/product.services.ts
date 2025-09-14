@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 import { Products } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { Categories } from "src/category/entities/category.entity";
+import { CategoryService } from "src/category/category.services";
 
 
 @Injectable()
@@ -12,8 +12,7 @@ export class ProductService{
     constructor(
         @InjectRepository(Products)
         private readonly productRepository: Repository<Products>,
-        @InjectRepository(Products)
-        private readonly categoryRepository: Repository<Categories>
+        private readonly categoryService:CategoryService,
     ){}
     async create(createProductDto: CreateProductDto): Promise<Products> {
       const { name, description, price, categoryId } = createProductDto;
@@ -21,10 +20,8 @@ export class ProductService{
       if (existingProduct) {
         throw new ConflictException('Product with this name already exists');
       }
-      const existingCategory = await this.categoryRepository.findOne({ where : { id:categoryId }})
-      if (!existingCategory) {
-        throw new NotFoundException('Category with this ID Not Found!');
-      }
+      const Category = await this.categoryService.getById(categoryId)
+
       const product = this.productRepository.create({
         name,
         description,
