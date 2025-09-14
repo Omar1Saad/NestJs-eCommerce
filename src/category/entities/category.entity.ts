@@ -19,6 +19,9 @@ export class Categories{
     @Column()
     description:string;
 
+    @Column({nullable:true})
+    image:string
+
     @CreateDateColumn()
     createAt:Date;
     
