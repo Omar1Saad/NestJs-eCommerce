@@ -8,11 +8,15 @@ import { UpdateCategoryDto } from "./dto/update-category.dto";
 
 @Injectable()
 export class CategoryService{
+  
     constructor(
         @InjectRepository(Categories)
         private readonly categoryRepository: Repository<Categories>,
     ){}
-    async create(createCategoryDto: CreateCategoryDto): Promise<Categories> {
+    
+    async create(createCategoryDto: CreateCategoryDto,
+      image?: Express.Multer.File,
+    ): Promise<Categories> {
       const { name, description } = createCategoryDto;
       const existingCategory = await this.categoryRepository.findOne({ where: { name } });
       if (existingCategory) {
@@ -21,9 +25,12 @@ export class CategoryService{
       const category = this.categoryRepository.create({
         name,
         description,
+        image:`/uploads/categories/${image ? image.filename:''}`,
       });
+
       return this.categoryRepository.save(category);
     }
+
     async getAll():Promise<{}>{
       return await this.categoryRepository.find()
     }

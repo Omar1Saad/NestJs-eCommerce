@@ -6,7 +6,10 @@ import {
     Param,
     Delete,
     Patch,
-    UseInterceptors
+    UseInterceptors,
+    UploadedFile,
+    ParseFilePipe,
+    MaxFileSizeValidator
 } from '@nestjs/common';
 import { CategoryService } from './category.services';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -30,8 +33,18 @@ export class CategoriesController{
             }
         })
     }))
-    async create(@Body() createUserDto:CreateCategoryDto){
-        return this.userService.create(createUserDto)
+    async create(@Body() createUserDto:CreateCategoryDto,
+    @UploadedFile(
+        new ParseFilePipe({
+            validators:[
+                new MaxFileSizeValidator({ maxSize:5 * 1024 *1024 }),
+            ],
+            fileIsRequired:false,
+        })
+    )
+    image?: Express.Multer.File,
+    ){
+        return this.userService.create(createUserDto, image)
     }
     
     @Get()

@@ -1,4 +1,5 @@
 import { Categories } from 'src/category/entities/category.entity';
+import { ProductImages } from 'src/product_images/entities/product_images.entity';
 import {
     Column,
     CreateDateColumn,
@@ -36,4 +37,7 @@ export class Products{
     @ManyToOne(()=>Categories, (category)=>category.products)
     @JoinColumn({name:'categoryId'})
     category:Categories
+
+    @OneToMany(()=>ProductImages,(image)=>image.product)
+    images:ProductImages[]
 }

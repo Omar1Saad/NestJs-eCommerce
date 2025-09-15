@@ -5,8 +5,6 @@ import {
     Body,
     Param,
     Delete,
-    Put,
-    Query,
     Patch
 } from '@nestjs/common';
 import { ProductService } from './product.services';
