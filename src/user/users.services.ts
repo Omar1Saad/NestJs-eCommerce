@@ -9,6 +9,9 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService{
+    findByEmail(email: string) {
+        throw new Error('Method not implemented.');
+    }
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
@@ -39,6 +42,13 @@ export class UserService{
       }      
       return user
     }
+    async getByEmail(email:string){
+      const user = await this.userRepository.findOne({ where: { email } });
+      // if(!user){
+      //   throw new NotFoundException("User not found!")
+      // }      
+      return user
+    }
 
     async update(id:number, updateUserDto: UpdateUserDto): Promise<User> {
       const { name, email, password, role } = updateUserDto;
@@ -63,6 +73,15 @@ export class UserService{
       user.password = hashedPassword || user.password
       user.role = role || user.role
 
+      return this.userRepository.save(user);
+    }
+
+    async updatePassword(id:number, hashedNewPassword:string):Promise<User>{
+      const user = await this.userRepository.findOne({ where: { id } });
+      if(!user){
+        throw new NotFoundException("User not found!")
+      }
+      user.password = hashedNewPassword
       return this.userRepository.save(user);
     }
 

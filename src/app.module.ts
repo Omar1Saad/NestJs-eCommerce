@@ -6,6 +6,7 @@ import { UsersModule } from './user/users.module';
 import { CategoriesModule } from './category/category.module';
 import { ProductsModule } from './product/product.module';
 import { ProductImagesModule } from './product_images/productImage.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProductImagesModule } from './product_images/productImage.module';
     CategoriesModule,
     ProductsModule,
     ProductImagesModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

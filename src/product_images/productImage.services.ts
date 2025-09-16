@@ -58,9 +58,10 @@ export class ProductImagesServices{
         if(image){
             productImage.imageUrl =  `/uploads/productImages/${image ? image.filename:''}`
         }
+        console.log(isPrimary)
         productImage.productId = productId || productImage.productId
         productImage.altText = altText || productImage.altText
-        productImage.isPrimary = isPrimary || productImage.isPrimary
+        productImage.isPrimary = isPrimary ? true : productImage.isPrimary
 
         return this.productImagesReop.save(productImage)
     }

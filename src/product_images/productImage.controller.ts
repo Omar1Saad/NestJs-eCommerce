@@ -63,7 +63,6 @@ export class ProductImagesController{
     @Body() updateProductImageDto:UpdateProductImageDto,
     image?:Express.Multer.File
 ){
-    console.log(id, updateProductImageDto)
         return this.productImagesServices.update(id, updateProductImageDto)
     }
 

@@ -7,9 +7,9 @@ export class CreateProductImageDto{
     @IsInt()
     productId:number;
 
-    @Type(()=>Boolean)
     @IsOptional()
     @IsBoolean()
+    @Type(()=>Boolean)
     isPrimary?:boolean
 
     @IsOptional()
